@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="./style.css">
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+      <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.1/dist/jquery.slim.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+    <title>Validation form</title>
+    <link rel="import" href="home.html">
+</head>
+
+<body>
+    <h1 class="form-group bg-info text-white text-center">Regex Validation Form Using JavaScript</h1><br>
+    <div class="container col-3" >
+            <form onsubmit="validation()" action="success.html" class="body">
+
+                <label>First Name</label>
+                <input type="text" class="form-control" onkeyup="firstName(this)" maxlength="15" oninput="abc(this)" id="firstname"
+                    maxlength="10" placeholder="Enter your First name" onkeypress="return event.charCode" required>
+                <span id="error"></span>
+                <br>
+
+
+                <label>Last Name</label>
+                <input type="text" class="form-control" onkeyup="lastName(this)" maxlength="15" oninput="abc(this)" id="lastname"
+                    placeholder="Enter your Last name" onkeypress="return event.charCode != 32" required>
+                <span id="fault"></span>
+                <br>
+
+                <label class="inputFields">Full Name</label>
+                <input type="text" class="form-control" placeholder="Enter Your Fullname " maxlength="20" id="fullname" oninput="abc(this)" onkeyup="fullName(this)" required />
+                <span id="wrong"></span>
+                <br>
+
+
+                <label>Email Id</label>
+                <input class="form-control" type="text" onkeyup="mail(this)" oninput="com(this)" onkeypress="return event.charCode != 32"
+                    onclick="com(this)" autocomplete="off" id="eml" maxlength="30" placeholder="Example@abc.com"required>
+                <span id="emml"></span>
+                <br>
+
+
+                
+                <label>Password</label>
+                <input class="form-control" type="password" onkeyup="pass(this)" oninput="abc(this)" minlength="8" maxlength="15"
+                    onkeypress="return event.charCode != 32" id="passs" maxlength="15" name="password"
+                    autocomplete="current-password" autocomplete="off" placeholder="Enter your password"
+                    requiredonkeypress="return event.charCode != 32" required>
+                    <i class="bi bi-eye-slash" id="togglePassword"></i>
+                <span id="pas" style="text-align: right;"></span>
+                <br>
+
+
+                <label for="address"> Full Address:</label>
+                <input class="form-control" placeholder="Enter your Full address" type="text" name="address" size="50" maxlength="25" /><br>
+                <br>
+
+
+                <label for="DOB">DOB</label>
+                <input type="date" oninput="ValidateDOB()" max="2004-12-31" min="1954-01-01" required/>
+                <span id="lblError";></span>
+                <br>
+                <br>
+
+
+
+                <tr>
+                    <td>Country</td>
+                    <td><select name="country" id="cntcode" onchange="setCountryCode()" required>
+                            <option value="" disabled selected value>Please Select Country </option>
+                            <option value="+91">India</option>
+                            <option value="+92">Pakistan</option>
+                            <option value="+1">Canada</option>
+                            <option value="+1">USA</option>
+                            <option value="+1">Canada</option>
+                            <option value="+61">Australia</option>
+                        </select></td>
+                </tr>
+                <br>
+                <br>
+
+
+
+                <tr>
+                    <label>Mobile number</label>
+                    <input type="text" value="0" id="zipCode" placeholder="+" disabled>
+                    <input type="text" oninput="ph(this)" onkeyup="mobile(this)" id="mob" maxlength="10"
+                        placeholder="Enter your phone no." autocomplete="off" required><br>
+                    <span id="emob"></span>
+                </tr>
+                <br>
+
+
+
+                <br>
+                <label>Gender</label>
+                <td>
+                    <li><input type="radio" name="gender" value="Male" /> Male</li>
+                    <li><input type="radio" name="gender" value="Female" /> Female</li>
+      
+                </td>
+
+
+                <br>
+                <br>
+
+                <label> Hobbies</label>
+                <td>
+                    <li><input type="checkbox" name="FootBall" value="FootBall" /> FootBall
+                    <li><input type="checkbox" name="Hockey" value="Hockey" /> Hockey</li>
+                    <li><input type="checkbox" name="cricket" value="cricket" /> Cricket</li>
+                    <li><input type="checkbox" name="VolleyBall" value="VolleyBall"/> Chess</li>
+                    <li><input type="checkbox" name="FootBall" value="FootBall" /> Ludo</li>                   
+                </td>
+                <br>
+
+
+
+              
+                <label>Attach image(Only .jpg .png allowed)</label>
+                <input type="file" id="file" onchange="return fileValidation()" multiple accept=".jpg , .png, .jpeg, .gif" required />
+                <br><br>
+                <br>
+                <br>
+
+
+
+                <label>Attach document(Only .pdf .doc are allowed )</label><br>
+                <input type="file" id="file1" onchange="return fileValidation1()" multiple accept=".pdf , .doc" required /><br><br>
+                <br>
+                <br>
+
+
+
+
+                <input type="checkbox" required>  Terms & Condition
+                <br><br>
+
+                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="reset" class="btn btn-secondary">Reset</button>
+
+            </form>
+        </div>
+
+
+
+
+    <script type="text/JavaScript">
+        let firstnameError = true;
+        let lastnameError = true;
+        let mobileerror = true;
+        let passwordError = true;
+        let CpasswordError = true;
+        let emailError = true;
+
+
+        function fun(input) {
+            if (/^\s/.test(input.value)) {
+                input.value = "";
+                document.getElementById("1_span").innerHTML =
+                    "**Please don't use the space**";
+            } else {
+                document.getElementById("1_span").innerHTML = "";
+            }
+        }
+        function allowed(input) {
+            var rgx = /[^a-zA-Z@!\s.0-9]/gi;
+            input.value = input.value.replace(rgx, "");
+        }
+
+        function ph(input) {
+            var phone = /[^0-9]/gi;
+            input.value = input.value.replace(phone, "");
+        }
+
+        function com(input) {
+            var reeg =
+                /.com.com| .co.co|.in.in|.edu.edu|.gov.gov.|.aa.aa|.bb.bb|.ab.ab/gi;
+            input.value = input.value.replace(reeg, "");
+        }
+
+        function abc(input) {
+            fun(input);
+            allowed(input);
+        }
+
+
+        function firstName() {
+            var firsttname = document.getElementById("firstname").value;
+            var letters = /^[A-Z][a-z]/;
+            var nme = /(\w)\1{2,}/;
+            var spc = /^([a-zA-Z]+\s?)*$/;
+
+            if (firsttname == "") {
+                document.getElementById("error").innerHTML = "*Please enter a valid name";
+                firstnameError = false;
+            } else if (nme.test(firsttname)) {
+                document.getElementById("error").innerHTML =
+                    "*Repeated character are not allowed";
+
+                firstnameError = false;
+            } else if (!isNaN(firsttname)) {
+                document.getElementById("error").innerHTML = "*Number is not allowed";
+                firstnameError = false;
+            } else if (!letters.test(firsttname)) {
+                document.getElementById("error").innerHTML =
+                    "*First letter must be capital*";
+                firstnameError = false;
+            } else if (firsttname.length < 2 || firsttname.length > 30) {
+                document.getElementById("error").innerHTML = "*Minimum 2 letter allowed*";
+                firstnameError = false;
+            } else if (!spc.test(firsttname)) {
+                document.getElementById("error").innerHTML = "*Only one space allowed*";
+                firstnameError = false;
+            } else {
+                document.getElementById("error").innerHTML = "";
+                firstnameError = true;
+            }
+        }
+
+        function lastName() {
+            var lastname = document.getElementById("lastname").value;
+            var letters = /^[A-Z][a-z]/;
+            var repeate = /(\w)\1{2,}/;
+            var spce = /^([a-zA-Z0-9]+\s?)*$/;
+
+            if (lastname == "") {
+                document.getElementById("fault").innerHTML = "*Please enter last name";
+                lastnameError = false;
+            } else if (repeate.test(lastname)) {
+                document.getElementById("fault").innerHTML = "*Repeated character not allowed";
+                lastnameError = false;
+            }
+            else if (!letters.test(lastname)) {
+                document.getElementById("fault").innerHTML = "*First letter must be capital*";
+                lastnameError = false;
+            }
+            else if (!spce.test(lastname)) {
+                document.getElementById("fault").innerHTML = "*Space not allowed";
+                lastnameError = false;
+            } else {
+                document.getElementById("fault").innerHTML = "";
+                lastnameError = true;
+            }
+        }
+
+        function fullName() {
+            var name = document.getElementById("fullname").value;
+            var letters1 = /^[A-Z][a-z0-9]+ [A-Z][a-z0-9]+ [A-Z][a-z0-9]+ [A-Z][a-z0-9]$/;
+            var letters4 = /^[A-Z][a-z0-9]+ [A-Z][a-z0-9]+ [A-Z][a-z0-9]+$/;
+            var letters = /^[A-Z][a-z0-9]+ [A-Z][a-z0-9]+$/;
+            var letters2 = /^[A-Z][a-z0-9]+$/;
+            var letters3 = /^[A-Z]+ [A-Z]+ [A-Z][a-z0-9]+$/;
+
+            if (name == "") {
+                document.getElementById("wrong").innerHTML = "* Please fill the name field";
+                u1_nameError = false;
+                return false;
+            }
+
+            else if (name.length <= 2) {
+                document.getElementById("wrong").innerHTML =
+                    "* Length must be between 2-20";
+                u1_nameError = false;
+                return false;
+            }
+            else if (!/^[A-Z]/.test(name)) {
+                document.getElementById("wrong").innerHTML = "* First Letter must be capital"
+                u1_nameError = false;
+            }
+
+            else if (/(.)\1\1+/g.test(name)) {
+                document.getElementById("wrong").innerHTML = "*Repeated character are not allowed Please check again";
+                u1_nameError = false;
+                return false;
+            }
+            else if ((!letters.test(name)) && (!letters1.test(name)) && (!letters2.test(name)) && (!letters3.test(name)) && (!letters4.test(name))) {
+                document.getElementById("wrong").innerHTML =
+                    "* First Letter Of Each Word Should Be Capital";
+                u1_nameError = false;
+                return false;
+            }
+
+
+
+            else if (name.charAt(0) == name.charAt(1) && name.charAt(1) == name.charAt(2)) {
+                document.getElementById("wrong").innerHTML = "** Please enter valid name";
+                u1_nameError = false;
+                return false;
+
+            }
+
+            else {
+                document.getElementById("wrong").innerHTML = "";
+                u1_nameError = true;
+            }
+        }
+
+        // dob
+        const isToday = (someDate) => {
+            const today = new Date()
+            return someDate.getDate() == today.getDate() &&
+                someDate.getMonth() == today.getMonth() &&
+                someDate.getFullYear() == today.getFullYear()
+        }
+
+        const isAge18Plus = (someDate) => {
+            const today = new Date();
+            const age = today.getFullYear() - someDate.getFullYear();
+            return (age >= 18 && age <= 100)
+        }
+
+        function isBirthDay(arg) {
+            var today = new Date();
+            var bdate = new Date(arg);
+            if (bdate.getTime() > today.getTime() || isToday(bdate) || !isAge18Plus(bdate)) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function ValidateDOB() {
+            if (isEmpty(getInputValue('txtDate').trim().replaceAll(" ", "")) == true) {
+                if (isBirthDay(getInputValue('txtDate').trim().replaceAll(" ", "")) == false) {
+                    errorMSG('inBod', 'bodValid', 'Birthday not valid or age restrict 18 to 100.');
+                } else {
+                    successMSG('inBod', 'bodValid');
+                    return true;
+                }
+            } else {
+                errorMSG('inBod', 'bodValid', 'Birthday not valid');
+            }
+        }
+
+
+        // mobile number validation
+
+        function mobile() {
+            var mobilee = document.getElementById("mob").value;
+            var re = /^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/;
+
+            if (mobilee == "") {
+                document.getElementById("emob").innerHTML = "*Enter mobile number";
+                mobileerror = false;
+            } else if (
+                mobilee.charAt(0) != 9 &&
+                mobilee.charAt(0) != 8 &&
+                mobilee.charAt(0) != 7 &&
+                mobilee.charAt(0) != 6 &&
+                mobilee.charAt(0) != 5 &&
+                mobilee.charAt(0) != 4 &&
+                mobilee.charAt(0) != 3 &&
+                mobilee.charAt(0) != 2 &&
+                mobilee.charAt(0) != 1
+            ) {
+                document.getElementsById("emob").innerHTML =
+                    "Only 9,8,7,6 allowed in india";
+                mobileerror = false;
+            } else if (mobilee.length < 10 || mobilee.length > 13) {
+                document.getElementById("emob").innerHTML =
+                    "*Mobile no. is not valid*";
+                mobileerror = false;
+            } else {
+                document.getElementById("emob").innerHTML = "";
+                mobileerror = true;
+            }
+        }
+        // password validation
+
+        function pass() {
+            var password = document.getElementById("passs").value;
+
+            var reletter = /(\w)\1{2,}/;
+
+            if (password === "") {
+                document.getElementById("pas").innerHTML = ("*Password must be in (A-Z,a-z, 0-9, @ ! # ) format");
+                passwordError = false;
+            } else if (reletter.test(password)) {
+                document.getElementById("pas").innerHTML =
+                    "*Repeated character not allowed*";
+                passwordError = false;
+            } else if (password.search(/[a-zA-z]/) < 0) {
+                document.getElementById("pas").innerHTML = "*Character allowed*";
+                passwordError = false;
+            } else if (password.search(/[0-9]/i) < 0) {
+                document.getElementById("pas").innerHTML = "*One number is compulsary*";
+                passwordError = false;
+            } else if (password.length < 5 || password.length > 15) {
+                document.getElementById("pas").innerHTML =
+                    "*Password  must be between 5 and 20*";
+                passwordError = false;
+            } else if (password.search(/[!@#$%^&*]/i) < 0) {
+                document.getElementById("pas").innerHTML = "*One specail chrachter allowe*";
+                passwordError = false;
+            } else {
+                document.getElementById("pas").innerHTML = "";
+                passwordError = true;
+            }
+        }
+
+
+        //To show the password after clicking to the eye icon
+        const togglePassword = document.querySelector("#togglePassword");
+        const password = document.querySelector("#passs");
+
+        togglePassword.addEventListener("click", function (e) {
+            const type =
+                password.getAttribute("type") === "password" ? "text" : "password";
+            password.setAttribute("type", type);
+
+            this.classList.toggle("fa-eye-slash");
+        });
+
+        function cpass() {
+            var password = document.getElementById("passs").value;
+            var cpassword = document.getElementById("cpasss").value;
+
+            if (password != cpassword) {
+                document.getElementById("cerror").innerHTML =
+                    "*Passwordsk are not matching*";
+                CpasswordError = false;
+            } else {
+                document.getElementById("cerror").innerHTML = "";
+                CpasswordError = true;
+            }
+        }
+
+
+
+        // email validation
+        function mail() {
+            var email = document.getElementById("eml").value;
+            if (email == "") {
+                document.getElementById("emml").innerHTML = "*Enter the Email*";
+                emailError = false;
+            } else if (
+                /^[a-z]\w+([\.-]?\w+)*@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.){1,2}[a-zA-Z]{2,3}))$/.test(
+                    email
+                )
+            ) {
+                document.getElementById("emml").innerHTML = "";
+                emailError = true;
+            } else if (email.length < 2 || email.length > 15) {
+                document.getElementById("emml").innerHTML =
+                    "*Email must be between 2 and 15";
+                emailError = false;
+            } else {
+                document.getElementById("emml").innerHTML = "*Invalid email";
+                emailError = true;
+            }
+        }
+
+
+        function setCountryCode() {
+            document.getElementById("zipCode").value =
+                document.getElementById("cntcode").value;
+            document.getElementById("zipCode").innerHTML =
+                document.getElementById("cntcode").value;
+        }
+
+        // file extention
+        function fileValidation() {
+            var fileInput =
+                document.getElementById('file');
+
+            var filePath = fileInput.value;
+
+            // Allowing file type
+            var allowedExtensions =
+                /(\.jpg|\.jpeg|\.png|\.gif)$/i;
+
+            if (!allowedExtensions.exec(filePath)) {
+                alert('Invalid file type');
+                fileInput.value = '';
+                return false;
+            }
+            $(document).ready(function () {
+                $('#resetbtn').on('click', function (e) {
+                    var $el = $('#infileid');
+                    $el.wrap('<form>').closest(
+                        'form').get(0).reset();
+                    $el.unwrap();
+                });
+            });
+        }
+
+
+        function fileValidation1() {
+            var fileInput =
+                document.getElementById('file1');
+
+            var filePath = fileInput.value;
+
+            // Allowing file type
+            var allowedExtensions =
+                /(\.doc|\.pdf)$/i;
+
+            if (!allowedExtensions.exec(filePath)) {
+                alert('Invalid file type');
+                fileInput.value = '';
+                return false;
+            }
+        }
+    </script>
+</body>
+
+</html>
